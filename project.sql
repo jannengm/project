@@ -70,10 +70,22 @@ CREATE TABLE Line(
 	QuantitySelected Integer,
 	PRIMARY KEY(OrderID, LineNumber)
 );
+
 --------------------------------------------------------------------------------------------------------------------
 CREATE TABLE Part(
 	PartID String,
 	VendorID String,
+
+	PartPrice Float,
+	PRIMARY KEY(PartID)
+);
+--------------------------------------------------------------------------------------------------------------------
+CREATE TABLE CompatibleCar(
+	PartID String,
+	Make String,
+	Model String,
+	FromYear Integer,
+	ToYear Integer
 
 	PartPrice Float,
 	PRIMARY KEY(PartID)
@@ -90,12 +102,24 @@ CREATE TABLE Bin(
 CREATE TABLE Vendors(
 	vID String,
 	vName String,
-	vLocation String,
+	vAddress String,
+	vCity String,
+	vState String,
+	vZip Integer,
+	--vPhone Integer,
 	PRIMARY KEY(vID)
 );
 --------------------------------------------------------------------------------------------------------------
 SET FEEDBACK OFF
-INSERT INTO Vendors VALUES ('V01', 'Paulstra CRC', 'Grand Rapids');
+INSERT INTO Vendors VALUES ('V01', 'Paulstra CRC', '6500 Divison St E,' 'Grand Rapids', 'MI', 49504);
+INSERT INTO Vendors VALUES('V02', 'Thireka', '520 Plainfield Ave NE,' 'Grand Rapids', 'MI', 49504);
+INSERT INTO Vendors VALUES('V03', 'Plasan Carbons', '9000 3 Mile Ave NW,' 'Grand Rapids', 'MI', 49504);
+INSERT INTO Vendors VALUES('V04' 'Denco Distributing Inc.', '1300 Euclid Ctd. SE,' 'Grand Rapids', 'MI', 49504);
+INSERT INTO Vendors VALUES('V05', 'Berco Inc', '2936 S Wilson Ct', 'Grand Rapids', 'MI', 49534)
+
+INSERT INTO Parts VALUES('Windshield Wipers', 'Toyota', 'Tocoma', 1991, 2000)
+
+
 SET FEEDBACK ON
 COMMIT;
 COMMIT;
