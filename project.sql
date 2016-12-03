@@ -52,7 +52,7 @@ CREATE TABLE Employee(
 	PayRate Float, -- Change made because I wasn't sure if this is an efficiency rate. 
 			—-not sure if FLOAT is a type, or if we have to use INTEGER
 		       -- if so, calculation would be better generated with a Query
-	CONSTRAINT sIC3 PRIMARY KEY (EmployeeID) -—PRIMARY KEY(EmployeeID)
+	CONSTRAINT EMP_IC1 PRIMARY KEY (EmployeeID) -—PRIMARY KEY(EmployeeID)
 );
 ----------------------------------------------------------------------------------------------------------------------
 CREATE TABLE Location(
@@ -64,7 +64,7 @@ CREATE TABLE Location(
 	ZipCode INTEGER NOT NULL,
 	Latitude INTEGER NOT NULL, -- Wanted to add these just for functionality, map building!
 	Longitude INTEGER NOT NULL,
-	CONSTRAINT sIC4 PRIMARY KEY (LocationID) —-PRIMARY KEY(LocationID)
+	CONSTRAINT LOC_IC1 PRIMARY KEY (LocationID) —-PRIMARY KEY(LocationID)
 );
 ------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE Line(
@@ -88,7 +88,7 @@ CREATE TABLE Part(
 	VendorID CHAR(3) NOT NULL,
 
 	PartPrice Float, 
-	CONSTRAINT sIC7 PRIMARY KEY (PartID) —-PRIMARY KEY(PartID)
+	CONSTRAINT PRT_IC1 PRIMARY KEY (PartID) —-PRIMARY KEY(PartID)
 );
 --------------------------------------------------------------------------------------------------------------------
 CREATE TABLE CompatibleCar(
@@ -100,7 +100,7 @@ CREATE TABLE CompatibleCar(
 	Part Price Float,
 	
 	QuantityInStock INTEGER NOT NULL,
-	CONSTRAINT sIC9 PRIMARY KEY (BinID) -—PRIMARY KEY(BinID)
+	CONSTRAINT CC_IC1 PRIMARY KEY (BinID) -—PRIMARY KEY(BinID)
 );
 --------------------------------------------------------------------------------------------------------------------
 CREATE TABLE Bin(
@@ -108,7 +108,7 @@ CREATE TABLE Bin(
 	LocationID CHAR(4) NOT NULL,
 	
 	QuantityInStock INTEGER NOT NULL,
-	CONSTRAINT sIC9 PRIMARY KEY (BinID) -—PRIMARY KEY(BinID)
+	CONSTRAINT BN_IC1 PRIMARY KEY (BinID) -—PRIMARY KEY(BinID)
 );
 -------------------------------------------------------------------------------------------------------------
 CREATE TABLE Vendors(
@@ -119,7 +119,7 @@ CREATE TABLE Vendors(
 	vState CHAR(2) NOT NULL,
 	vZIP INTEGER NOT NULL
 	
-	CONSTRAINT sIC10 PRIMARY KEY (vID) —-PRIMARY KEY(vID)
+	CONSTRAINT VEN_IC1 PRIMARY KEY (vID) —-PRIMARY KEY(vID)
 
 );
 --------------------------------------------------------------------------------------------------------------
@@ -127,7 +127,7 @@ CREATE TABLE Vendors(
 CREATE TABLE Class(
 	ClassID CHAR(1) NOT NULL,
 	ClassType String,
-	CONSTRAINT sIC11 PRIMARY KEY (ClassID) —-PRIMARY KEY(ClassID)
+	CONSTRAINT CLS_IC1 PRIMARY KEY (ClassID) —-PRIMARY KEY(ClassID)
 
 );
 --------------------------------------------------------------------------------------------------------------
