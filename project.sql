@@ -94,17 +94,6 @@ CREATE TABLE CompatibleCar(
 	CONSTRAINT sIC9 PRIMARY KEY (BinID) -—PRIMARY KEY(BinID)
 );
 --------------------------------------------------------------------------------------------------------------------
-CREATE TABLE CompatibleCar(
-	PartID String,
-	Make String,
-	Model String,
-	FromYear Integer,
-	ToYear Integer
-
-	PartPrice Float,
-	PRIMARY KEY(PartID)
-);
-------------------------------------------------------------------------------------------------------------------
 CREATE TABLE Bin(
 	BinID CHAR(6) NOT NULL,
 	LocationID CHAR(4) NOT NULL,
