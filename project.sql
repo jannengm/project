@@ -68,8 +68,8 @@ CREATE TABLE Line(
 	LinePrice Float, -- MV? —-set as float, can have decimals
 	QuantityRequested INTEGER NOT NULL,
 	QuantitySelected INTEGER NOT NULL,
-	CONSTRAINT sIC5 PRIMARY KEY (OrderID)—-PRIMARY KEY(OrderID)
-	CONSTRAINT sIC6 PRIMARY KEY (LineNumber)—-PRIMARY KEY(LineNumber)
+	CONSTRAINT sIC5 PRIMARY KEY (OrderID, LineNumber)—-PRIMARY KEY(OrderID, LineNumber)
+	
 );
 
 --------------------------------------------------------------------------------------------------------------------
