@@ -118,14 +118,9 @@ CREATE TABLE Vendors(
 	vAddress String,
 	vCity String,
 	vState CHAR(2) NOT NULL,
-	vZIP CHAR(5) NOT NULL
+	vZIP INTEGER NOT NULL
 	
 	CONSTRAINT sIC10 PRIMARY KEY (vID) —-PRIMARY KEY(vID)
-
-	vState String,
-	vZip Integer,
-	--vPhone Integer,
-	PRIMARY KEY(vID)
 
 );
 --------------------------------------------------------------------------------------------------------------
