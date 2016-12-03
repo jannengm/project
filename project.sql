@@ -117,17 +117,16 @@ CREATE TABLE Vendors(
 	vName String,
 	vAddress String,
 	vCity String,
-<<<<<<< HEAD
 	vState CHAR(2) NOT NULL,
 	vZIP CHAR(5) NOT NULL
 	
 	CONSTRAINT sIC10 PRIMARY KEY (vID) —-PRIMARY KEY(vID)
-=======
+
 	vState String,
 	vZip Integer,
 	--vPhone Integer,
 	PRIMARY KEY(vID)
->>>>>>> b6c9375aeebb8b0dc9360a3995e9b65abc04f1e4
+
 );
 --------------------------------------------------------------------------------------------------------------
 SET FEEDBACK OFF
