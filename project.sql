@@ -17,14 +17,19 @@ CREATE TABLE Orders(
 	ShippingAddress String, —-comment above
 	cID CHAR(12) NOT NULL, -- foreign key to Customers Table
 
-	ActualShipDate DATE NOT NULL,
-	ExpectedShipDate DATE NOT NULL,
-	ReceivedDate DATE NOT NULL,
+	ActualShipDate datetime,
+	ExpectedShipDate datetime NOT NULL,
+	ReceivedDate datetime NOT NULL,
 
 	Pickup BOOLEAN NOT NULL,
 	
-	Discount Float, —-not sure if ‘float’ is correct, or if integer is
-	CONSTRAINT sIC1 PRIMARY KEY (OrderID) —-PRIMARY KEY(OrderID)
+	Discount Float, —-float is correct, want discount as % of ord cost
+	CONSTRAINT ORD_IC1 PRIMARY KEY (OrderID) —-PRIMARY KEY(OrderID),
+	CONSTRAINT ORD_IC2 FOREIGN KEY, (cID),
+	CONSTRAINT ORD_IC3 CHECK (ExpectedShipDate => ReceivedDate),
+	CONSTRAINT ORD_IC4 CHECK (ActualShipDate +. ReceivedDate),
+	CONSTRAINT ORD_IC5 CHECK (PayMethod IN 'credit', 'check', 'NEFT', 'IMPS', 'RTGS'),
+	CONSTRAINT ORD_IC6 CHECK (Discount <= 1 AND Discount >= 0)
 );
 ---------------------------------------------------------------------------------------------------------------
 CREATE TABLE Customers(
@@ -33,7 +38,8 @@ CREATE TABLE Customers(
 	cID CHAR(12) NOT NULL,
 	cLocation String, —-same as above
 	
-	CONSTRAINT sIC2 PRIMARY KEY (cID) —-PRIMARY KEY(cID)
+	CONSTRAINT Cust_IC1 PRIMARY KEY (cID) —-PRIMARY KEY(cID),
+	CONSTRAINT Cust_IC2 CHECK (class IN 'individual', 'company', 'wholesale')
 );
 ------------------------------- ------------------------------------------------------------------------------------
 CREATE TABLE Employee(
@@ -69,8 +75,11 @@ CREATE TABLE Line(
 	LinePrice Float, -- MV? —-set as float, can have decimals
 	QuantityRequested INTEGER NOT NULL,
 	QuantitySelected INTEGER NOT NULL,
-	CONSTRAINT sIC5 PRIMARY KEY (OrderID, LineNumber)—-PRIMARY KEY(OrderID, LineNumber)
 	
+	CONSTRAINT LN_IC1 PRIMARY KEY (OrderID, LineNumber)—-PRIMARY KEY(OrderID, LineNumber),
+	CONSTRAINT LN_IC2 CHECK (QuantityRequested > 0),
+	CONSTRAINT LN_IC3 CHECK (QuantitySelected >= 0),
+	CONSTRAINT LN_IC4 CHECK (LinePrice >= 0)
 );
 
 --------------------------------------------------------------------------------------------------------------------
