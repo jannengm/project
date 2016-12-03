@@ -38,8 +38,8 @@ CREATE TABLE Customers(
 	cID CHAR(12) NOT NULL,
 	cLocation String, —-same as above
 	
-	CONSTRAINT Cust_IC1 PRIMARY KEY (cID) —-PRIMARY KEY(cID),
-	CONSTRAINT Cust_IC2 CHECK (class IN 'individual', 'company', 'wholesale')
+	CONSTRAINT CUST_IC1 PRIMARY KEY (cID) —-PRIMARY KEY(cID),
+	CONSTRAINT CUST_IC2 CHECK (class IN 'individual', 'company', 'wholesale')
 );
 ------------------------------- ------------------------------------------------------------------------------------
 CREATE TABLE Employee(
@@ -88,23 +88,15 @@ CREATE TABLE Line(
 --------------------------------------------------------------------------------------------------------------------
 CREATE TABLE Part(
 	PartID CHAR(10) NOT NULL,
-	VendorID CHAR(3) NOT NULL,
-
-	PartPrice Float, 
-	CONSTRAINT PRT_IC1 PRIMARY KEY (PartID) —-PRIMARY KEY(PartID)
-);
---------------------------------------------------------------------------------------------------------------------
-CREATE TABLE CompatibleCar(
-	PartID CHAR(10) NOT NULL, —-FK -> PART
+	VendorID CHAR(3) NOT NULL, —-fk->Vendors
 	Make String,
 	Model String, 
 	FromYear INTEGER NOT NULL,
 	ToYear INTEGER NOT NULL,
-	PartPrice Float, —-references part? a kind of key need constraint
-	
-	QuantityInStock INTEGER NOT NULL,
-	CONSTRAINT CC_IC1 PRIMARY KEY (BinID) -—PRIMARY KEY(BinID)
-	CONSTRAINT CC_IC2 FOREIGN KEY (PartID) REFERENCES Part(PartID)
+	PartPrice Float,
+ 
+	CONSTRAINT PRT_IC1 PRIMARY KEY (PartID) —-PRIMARY KEY(PartID)
+	CONSTRAINT PRT_IC2 FOREIGN KEY (VendorID) REFERENCES Vendors(vID)
 );
 --------------------------------------------------------------------------------------------------------------------
 CREATE TABLE Bin(
