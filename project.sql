@@ -25,7 +25,7 @@ CREATE TABLE Orders(
 	
 	Discount Float, —-float is correct, want discount as % of ord cost
 	CONSTRAINT ORD_IC1 PRIMARY KEY (OrderID) —-PRIMARY KEY(OrderID),
-	CONSTRAINT ORD_IC2 FOREIGN KEY (cID),
+	CONSTRAINT ORD_IC2 FOREIGN KEY (cID) REFERENCES Customers(cID),
 	CONSTRAINT ORD_IC3 CHECK (ExpectedShipDate => ReceivedDate),
 	CONSTRAINT ORD_IC4 CHECK (ActualShipDate +. ReceivedDate),
 	CONSTRAINT ORD_IC5 CHECK (PayMethod IN 'credit', 'check', 'NEFT', 'IMPS', 'RTGS'),
