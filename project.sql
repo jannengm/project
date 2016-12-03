@@ -32,6 +32,7 @@ CREATE TABLE Customers(
 	cName String, —-not sure of CHAR(size) here or just can have string
 	cID CHAR(12) NOT NULL,
 	cLocation String, —-same as above
+	
 	CONSTRAINT sIC2 PRIMARY KEY (cID) —-PRIMARY KEY(cID)
 );
 ------------------------------- ------------------------------------------------------------------------------------
@@ -121,6 +122,14 @@ CREATE TABLE Vendors(
 	vZIP INTEGER NOT NULL
 	
 	CONSTRAINT sIC10 PRIMARY KEY (vID) —-PRIMARY KEY(vID)
+
+);
+--------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE Class(
+	ClassID CHAR(1) NOT NULL,
+	ClassType String,
+	CONSTRAINT sIC11 PRIMARY KEY (ClassID) —-PRIMARY KEY(ClassID)
 
 );
 --------------------------------------------------------------------------------------------------------------
