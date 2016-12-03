@@ -25,7 +25,7 @@ CREATE TABLE Orders(
 	
 	Discount Float, —-float is correct, want discount as % of ord cost
 	CONSTRAINT ORD_IC1 PRIMARY KEY (OrderID) —-PRIMARY KEY(OrderID),
-	CONSTRAINT ORD_IC2 FOREIGN KEY, (cID),
+	CONSTRAINT ORD_IC2 FOREIGN KEY (cID),
 	CONSTRAINT ORD_IC3 CHECK (ExpectedShipDate => ReceivedDate),
 	CONSTRAINT ORD_IC4 CHECK (ActualShipDate +. ReceivedDate),
 	CONSTRAINT ORD_IC5 CHECK (PayMethod IN 'credit', 'check', 'NEFT', 'IMPS', 'RTGS'),
@@ -52,7 +52,8 @@ CREATE TABLE Employee(
 	PayRate Float, -- Change made because I wasn't sure if this is an efficiency rate. 
 			—-not sure if FLOAT is a type, or if we have to use INTEGER
 		       -- if so, calculation would be better generated with a Query
-	CONSTRAINT EMP_IC1 PRIMARY KEY (EmployeeID) -—PRIMARY KEY(EmployeeID)
+	CONSTRAINT EMP_IC1 PRIMARY KEY (EmployeeID), -—PRIMARY KEY(EmployeeID)
+	CONSTRAINT EMP_IC2 FOREIGN KEY (LocationID) REFERENCES Location(LocationID)
 );
 ----------------------------------------------------------------------------------------------------------------------
 CREATE TABLE Location(
@@ -79,7 +80,9 @@ CREATE TABLE Line(
 	CONSTRAINT LN_IC1 PRIMARY KEY (OrderID, LineNumber)—-PRIMARY KEY(OrderID, LineNumber),
 	CONSTRAINT LN_IC2 CHECK (QuantityRequested > 0),
 	CONSTRAINT LN_IC3 CHECK (QuantitySelected >= 0),
-	CONSTRAINT LN_IC4 CHECK (LinePrice >= 0)
+	CONSTRAINT LN_IC4 CHECK (LinePrice >= 0),
+	CONSTRAINT LN_IC5 FOREIGN KEY (OrderID) REFERENCES Order(OrderID),
+	CONSTRAINT LN_IC6 FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
 );
 
 --------------------------------------------------------------------------------------------------------------------
@@ -92,23 +95,25 @@ CREATE TABLE Part(
 );
 --------------------------------------------------------------------------------------------------------------------
 CREATE TABLE CompatibleCar(
-	PartID CHAR(10) NOT NULL,
+	PartID CHAR(10) NOT NULL, —-FK -> PART
 	Make String,
 	Model String, 
 	FromYear INTEGER NOT NULL,
 	ToYear INTEGER NOT NULL,
-	Part Price Float,
+	PartPrice Float, —-references part? a kind of key need constraint
 	
 	QuantityInStock INTEGER NOT NULL,
 	CONSTRAINT CC_IC1 PRIMARY KEY (BinID) -—PRIMARY KEY(BinID)
+	CONSTRAINT CC_IC2 FOREIGN KEY (PartID) REFERENCES Part(PartID)
 );
 --------------------------------------------------------------------------------------------------------------------
 CREATE TABLE Bin(
 	BinID CHAR(6) NOT NULL,
-	LocationID CHAR(4) NOT NULL,
+	LocationID CHAR(4) NOT NULL, —-fk->location
 	
 	QuantityInStock INTEGER NOT NULL,
 	CONSTRAINT BN_IC1 PRIMARY KEY (BinID) -—PRIMARY KEY(BinID)
+	CONSTRAINT BN_IC2 FOREIGN KEY (LocationID) REFERENCES Location(LocationID)
 );
 -------------------------------------------------------------------------------------------------------------
 CREATE TABLE Vendors(
