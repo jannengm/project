@@ -13,9 +13,9 @@ SET ECHO ON
 ----------------------------------------------------------------------------------------------------
 CREATE TABLE Orders(
 	OrderID CHAR(6) NOT NULL, -- Made this change to avoid aggregation issues; PK
-	PayMethod String, —-May need to change to CHAR, but length changes
-	ShippingAddress String, —-comment above
-	cID CHAR(12) NOT NULL, -- foreign key to Customers Table
+	PayMethod CHAR(200), 
+	ShippingAddress CHAR(200), 
+	cID CHAR(5) NOT NULL, -- foreign key to Customers Table
 
 	ActualShipDate datetime,
 	ExpectedShipDate datetime NOT NULL,
@@ -34,9 +34,9 @@ CREATE TABLE Orders(
 ---------------------------------------------------------------------------------------------------------------
 CREATE TABLE Customers(
 	Class CHAR(1) NOT NULL,
-	cName String, —-not sure of CHAR(size) here or just can have string
-	cID CHAR(12) NOT NULL,
-	cLocation String, —-same as above
+	cName CHAR(200), —-not sure of CHAR(size) here or just can have string
+	cID CHAR(5) NOT NULL,
+	cLocation CHAR(200), —-same as above
 	
 	CONSTRAINT CUST_IC1 PRIMARY KEY (cID) —-PRIMARY KEY(cID),
 	CONSTRAINT CUST_IC2 CHECK (class IN 'individual', 'company', 'wholesale')
@@ -44,10 +44,10 @@ CREATE TABLE Customers(
 ------------------------------- ------------------------------------------------------------------------------------
 CREATE TABLE Employee(
 	Job CHAR(20) NOT NULL,
-	EmployeeID CHAR(11) NOT NULL, -- Again changes made for aggregation purposes don't want to get sum of emp ID, just cnt
-	NameFirst String, —-not sure again of length of CHAR or can just have string
-	NameLast String, —-same as above
-	LocationID String, -- FK to Location Table
+	EmployeeID CHAR(3) NOT NULL, -- Again changes made for aggregation purposes don't want to get sum of emp ID, just cnt
+	NameFirst CHAR(200), —-not sure again of length of CHAR or can just have string
+	NameLast CHAR(200), —-same as above
+	LocationID CHAR(200), -- FK to Location Table
 	
 	PayRate Float, -- Change made because I wasn't sure if this is an efficiency rate. 
 			—-not sure if FLOAT is a type, or if we have to use INTEGER
@@ -58,20 +58,20 @@ CREATE TABLE Employee(
 ----------------------------------------------------------------------------------------------------------------------
 CREATE TABLE Location(
 	LocationID CHAR(4) NOT NULL,
-	LocationName String, —-will fix when other like questions are answered
-	Address String,
-	City String,
+	LocationName CHAR(200), —-will fix when other like questions are answered
+	Address CHAR(200),
+	City CHAR(200),
 
 	ZipCode INTEGER NOT NULL,
-	Latitude INTEGER NOT NULL, -- Wanted to add these just for functionality, map building!
-	Longitude INTEGER NOT NULL,
+	Latitude Float NOT NULL, -- Wanted to add these just for functionality, map building!
+	Longitude Float NOT NULL,
 	CONSTRAINT LOC_IC1 PRIMARY KEY (LocationID) —-PRIMARY KEY(LocationID)
 );
 ------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE Line(
 	LineNumber CHAR(3) NOT NULL,
 	OrderID CHAR(6) NOT NULL, —-FK->Order	
-	EmployeeID CHAR(11) NOT NULL, -- FK -> Employee 
+	EmployeeID CHAR(3) NOT NULL, -- FK -> Employee 
 
 	LinePrice Float, -- MV? —-set as float, can have decimals
 	QuantityRequested INTEGER NOT NULL,
@@ -89,8 +89,8 @@ CREATE TABLE Line(
 CREATE TABLE Part(
 	PartID CHAR(10) NOT NULL,
 	VendorID CHAR(3) NOT NULL, —-fk->Vendors
-	Make String,
-	Model String, 
+	Make CHAR(200),
+	Model CHAR(200), 
 	FromYear INTEGER NOT NULL,
 	ToYear INTEGER NOT NULL,
 	PartPrice Float,
@@ -110,9 +110,9 @@ CREATE TABLE Bin(
 -------------------------------------------------------------------------------------------------------------
 CREATE TABLE Vendors(
 	vID CHAR(3) NOT NULL,
-	vName String,
-	vAddress String,
-	vCity String,
+	vName CHAR(200),
+	vAddress CHAR(200),
+	vCity CHAR(200),
 	vState CHAR(2) NOT NULL,
 	vZIP INTEGER NOT NULL
 	
@@ -123,19 +123,71 @@ CREATE TABLE Vendors(
 
 CREATE TABLE Class(
 	ClassID CHAR(1) NOT NULL,
-	ClassType String,
+	ClassType CHAR(200),
 	CONSTRAINT CLS_IC1 PRIMARY KEY (ClassID) —-PRIMARY KEY(ClassID)
 
 );
 --------------------------------------------------------------------------------------------------------------
 SET FEEDBACK OFF
+—-Orders Inserts here
+
+—-Customers Inserts here
+
+INSERT INTO Customers VALUES ('76434', 'Jane Doe', '555 3rd St, Grand Rapids, MI 49504', 'A');
+INSERT INTO Customers VALUES ('65432', 'John Doe', '3214 Grand Rd, Grand Rapids, MI 49504', 'B');
+INSERT INTO Customers VALUES ('04324', 'Ray Roy', '898 Out St, Chicago IL, 60290', 'C');
+INSERT INTO Customers VALUES ('12345', 'Robert Plant', '1022 Campus Dr, Allendale MI, 49201', 'C');
+INSERT INTO Customers VALUES ('45677', 'Jimmy Page', '102 Campus Dr, Allendale MI, 49201', 'C');
+INSERT INTO Customers VALUES ('36989', 'Tim Othy', '20 Mallard Dr,Gibraltar MI, 48173', 'A');
+
+—-Employee Inserts here
+INSERT INTO Employee VALUES (‘199’, ‘Ralph’, ‘Klasp’, ‘Manager’, 30, ’2839’);
+INSERT INTO Employee VALUES (‘438’, ‘James’, ‘David’, ‘Line Worker’, 10, ’5723’);
+INSERT INTO Employee VALUES (‘458’, ‘Jeff’, ‘McCoy’, ‘Line Worker’, 10, ’5965’);
+INSERT INTO Employee VALUES (‘678’, ‘Nate’, ‘Benson’, ‘Line Worker’, 10, ’2839’);
+INSERT INTO Employee VALUES (‘548’, ‘Chris’, ‘Haas’, ‘Line Worker’, 10, ’5723’);
+INSERT INTO Employee VALUES (‘123’, ‘Jessica’, ‘Click’, ‘Manager’, 15, ’5965’);
+INSERT INTO Employee VALUES (‘504’, ‘Emily’, ‘Barofsky’, ‘Receptionist’, 13, ’2839’);
+
+—-Location Inserts here
+INSERT INTO Location VALUES (’2839’, ’Speak St Parts’, ‘1 Speak St’, ‘Grand Rapids’, 49504, ’42.962999’, ‘-85.673026’);
+INSERT INTO Location VALUES (’5723’, ’Reading Rd Parts’, ‘4323 Reading Rd’, ‘Grand Rapids’, 49504, ’42.963498’, ‘-85.686504’);
+INSERT INTO Location VALUES (’5965’, ’Git St Parts’, ‘582 Git NW St’, ‘Allendale’, 49201, ’42.972186’, ‘-85.954022’);
+
+—-Line Inserts here
+INSERTS INTO Line VALUES (‘123411’, ‘125’, ‘548’, ’10.91’, 1, 1);
+INSERTS INTO Line VALUES (‘572831’, ‘523’, ‘438’, ’100.23’, 3, 3);
+INSERTS INTO Line VALUES (‘129757’, ‘765’, ‘548’, ’231.43’, 1, 1);
+INSERTS INTO Line VALUES (‘243491’, ‘122’, ‘458’, ’945.15’, 5, 5);
+INSERTS INTO Line VALUES (‘228922’, ‘890’, ‘678’, ’22.01’, 2, 2);
+
+—-Part Inserts here
+INSERTS INTO Part VALUES (’123-435’, ‘V01’, ‘Honda’, ‘Civic’, 2001, 2014, ’120.56’);
+INSERTS INTO Part VALUES (’574-628’, ‘V01’, ‘Ford’, ‘F-150’, 2009, 2010, ’534.12’);
+INSERTS INTO Part VALUES (’123-435’, ‘V01’, ‘Audi’, ‘A4’, 2010, 2015, ’50.56’);
+INSERTS INTO Part VALUES (’123-435’, ‘V01’, ‘Honda’, ’CR-V’, 2000, 2004, ’10.90’);
+INSERTS INTO Part VALUES (’123-435’, ‘V01’, ‘Kia’, ‘Soul’, 2013, 2014, ’111.22’);
+
+
+—-Bin Inserts here
+INSERT INTO Bin VALUES (‘1-4234’, ’2839’, 65);
+INSERT INTO Bin VALUES (‘5-2342’, ’5723’, 12);
+INSERT INTO Bin VALUES (‘6-4628’, ’5965’, 92);
+INSERT INTO Bin VALUES (‘3-5341’, ’2839’, 45);
+INSERT INTO Bin VALUES (‘2-5488’, ’5965’, 23);
+
+—-Vendors Inserts here
 INSERT INTO Vendors VALUES ('V01', 'Paulstra CRC', '6500 Divison St E,' 'Grand Rapids', 'MI', 49504);
 INSERT INTO Vendors VALUES('V02', 'Thireka', '520 Plainfield Ave NE,' 'Grand Rapids', 'MI', 49504);
 INSERT INTO Vendors VALUES('V03', 'Plasan Carbons', '9000 3 Mile Ave NW,' 'Grand Rapids', 'MI', 49504);
 INSERT INTO Vendors VALUES('V04' 'Denco Distributing Inc.', '1300 Euclid Ctd. SE,' 'Grand Rapids', 'MI', 49504);
 INSERT INTO Vendors VALUES('V05', 'Berco Inc', '2936 S Wilson Ct', 'Grand Rapids', 'MI', 49534)
 
-INSERT INTO Parts VALUES('Windshield Wipers', 'Toyota', 'Tocoma', 1991, 2000)
+—-Class Inserts here
+INSERT INTO Class VALUES (‘A’, ‘Individual’);
+INSERT INTO Class VALUES (‘B’, ‘Wholesaler’);
+INSERT INTO Class VALUES (‘C’, ‘Company’);
+
 
 
 SET FEEDBACK ON
