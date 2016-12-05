@@ -23,7 +23,7 @@ CREATE TABLE Orders(
 
 	Pickup BOOLEAN NOT NULL,
 	
-	Discount Float, —-float is correct, want discount as % of ord cost
+	Discount FLOAT NOT NULL, —-float is correct, want discount as % of ord cost
 	CONSTRAINT ORD_IC1 PRIMARY KEY (OrderID) —-PRIMARY KEY(OrderID),
 	CONSTRAINT ORD_IC2 FOREIGN KEY (cID) REFERENCES Customers(cID),
 	CONSTRAINT ORD_IC3 CHECK (ExpectedShipDate => ReceivedDate),
@@ -49,7 +49,7 @@ CREATE TABLE Employee(
 	NameLast CHAR(200), —-same as above
 	LocationID CHAR(200), -- FK to Location Table
 	
-	PayRate Float, -- Change made because I wasn't sure if this is an efficiency rate. 
+	PayRate FLOAT NOT NULL, -- Change made because I wasn't sure if this is an efficiency rate. 
 			—-not sure if FLOAT is a type, or if we have to use INTEGER
 		       -- if so, calculation would be better generated with a Query
 	CONSTRAINT EMP_IC1 PRIMARY KEY (EmployeeID), -—PRIMARY KEY(EmployeeID)
@@ -63,8 +63,6 @@ CREATE TABLE Location(
 	City CHAR(200),
 
 	ZipCode INTEGER NOT NULL,
-	Latitude Float NOT NULL, -- Wanted to add these just for functionality, map building!
-	Longitude Float NOT NULL,
 	CONSTRAINT LOC_IC1 PRIMARY KEY (LocationID) —-PRIMARY KEY(LocationID)
 );
 ------------------------------------------------------------------------------------------------------------------------
@@ -73,7 +71,7 @@ CREATE TABLE Line(
 	OrderID CHAR(6) NOT NULL, —-FK->Order	
 	EmployeeID CHAR(3) NOT NULL, -- FK -> Employee 
 
-	LinePrice Float, -- MV? —-set as float, can have decimals
+	LinePrice FLOAT NOT NULL, -- MV? —-set as float, can have decimals
 	QuantityRequested INTEGER NOT NULL,
 	QuantitySelected INTEGER NOT NULL,
 	
@@ -93,7 +91,7 @@ CREATE TABLE Part(
 	Model CHAR(200), 
 	FromYear INTEGER NOT NULL,
 	ToYear INTEGER NOT NULL,
-	PartPrice Float,
+	PartPrice FLOAT NOT NULL,
  
 	CONSTRAINT PRT_IC1 PRIMARY KEY (PartID) —-PRIMARY KEY(PartID)
 	CONSTRAINT PRT_IC2 FOREIGN KEY (VendorID) REFERENCES Vendors(vID)
@@ -130,6 +128,26 @@ CREATE TABLE Class(
 --------------------------------------------------------------------------------------------------------------
 SET FEEDBACK OFF
 —-Orders Inserts here
+INSERT INTO Orders VALUES (‘293840’, ‘credit’, ‘555 3rd St, Grand Rapids, MI 49504’, ‘74589’, 10/09/16, 10/11/16, 10/15/16, False, .00);
+
+INSERT INTO Orders VALUES (‘910748’, ‘NEFT’, ‘3214 Grand Rd, Grand Rapids, MI 49504’, ‘16543’, 10/13/16, 10/14/16, 10/17/16, False, .015);
+
+INSERT INTO Orders VALUES (‘712903’, ‘credit’, ‘898 Out St, Chicago IL, 60290’, ‘04324’, 09/08/16, 09/10/16, 09/13/16, False, .030);
+
+INSERT INTO Orders VALUES (‘571281’, ‘credit’, ‘1022 Campus Dr, Allendale MI, 49201’, ‘12345’, 02/04/16, 02/07/16, 02/14/16, False, 0.00);
+
+INSERT INTO Orders VALUES (‘797678’, ‘check’, ‘102 Campus Dr, Allendale MI, 49201’, ‘45677’, 05/12/16, 05/16/16, 05/20/16, False, 0.010);
+
+INSERT INTO Orders VALUES (‘123411’, ‘IMPS’, ‘20 Mallard Dr,Gibraltar MI, 48173’, ‘36989’, 07/19/16, 07/21/16, 07/25/16, False, 0.010);
+
+INSERT INTO Orders VALUES (‘572831’, ‘credit’, ‘123 Grade Dr, Chicago IL, 60290’, ‘04324’, 03/03/16, 03/04/16, 03/07/16, False, 0.030);
+
+INSERT INTO Orders VALUES (‘129757’, ‘credit’, ‘5432 Data Rd, Grand Rapids, MI 49504’, ‘76434’, 12/01/16, 12/03/16, 12/06/16, False, 0.030);
+
+INSERT INTO Orders VALUES (‘243491’, ‘check’, ‘2342 Base Rd, Grand Rapids, MI 49504’, ‘65432’, 04/05/16, 04/06/16, 04/10/16, False, 0.00);
+
+INSERT INTO Orders VALUES (‘228922’, ‘credit’, ‘6232 Class Rd, Grand Rapids, MI 49504’, ‘36989’, 08/08/16, 08/10/16, 08/13/16, False, 0.010);
+
 
 —-Customers Inserts here
 
@@ -150,23 +168,23 @@ INSERT INTO Employee VALUES (‘123’, ‘Jessica’, ‘Click’, ‘Manager�
 INSERT INTO Employee VALUES (‘504’, ‘Emily’, ‘Barofsky’, ‘Receptionist’, 13, ’2839’);
 
 —-Location Inserts here
-INSERT INTO Location VALUES (’2839’, ’Speak St Parts’, ‘1 Speak St’, ‘Grand Rapids’, 49504, ’42.962999’, ‘-85.673026’);
-INSERT INTO Location VALUES (’5723’, ’Reading Rd Parts’, ‘4323 Reading Rd’, ‘Grand Rapids’, 49504, ’42.963498’, ‘-85.686504’);
-INSERT INTO Location VALUES (’5965’, ’Git St Parts’, ‘582 Git NW St’, ‘Allendale’, 49201, ’42.972186’, ‘-85.954022’);
+INSERT INTO Location VALUES (’2839’, ’Speak St Parts’, ‘1 Speak St’, ‘Grand Rapids’, 49504);
+INSERT INTO Location VALUES (’5723’, ’Reading Rd Parts’, ‘4323 Reading Rd’, ‘Grand Rapids’, 49504);
+INSERT INTO Location VALUES (’5965’, ’Git St Parts’, ‘582 Git NW St’, ‘Allendale’, 49201);
 
 —-Line Inserts here
-INSERTS INTO Line VALUES (‘123411’, ‘125’, ‘548’, ’10.91’, 1, 1);
-INSERTS INTO Line VALUES (‘572831’, ‘523’, ‘438’, ’100.23’, 3, 3);
-INSERTS INTO Line VALUES (‘129757’, ‘765’, ‘548’, ’231.43’, 1, 1);
-INSERTS INTO Line VALUES (‘243491’, ‘122’, ‘458’, ’945.15’, 5, 5);
-INSERTS INTO Line VALUES (‘228922’, ‘890’, ‘678’, ’22.01’, 2, 2);
+INSERTS INTO Line VALUES (‘123411’, ‘125’, ‘548’, 10.91, 1, 1);
+INSERTS INTO Line VALUES (‘572831’, ‘523’, ‘438’, 100.23, 3, 3);
+INSERTS INTO Line VALUES (‘129757’, ‘765’, ‘548’, 231.43, 1, 1);
+INSERTS INTO Line VALUES (‘243491’, ‘122’, ‘458’, 945.15, 5, 5);
+INSERTS INTO Line VALUES (‘228922’, ‘890’, ‘678’, 22.01, 2, 2);
 
 —-Part Inserts here
-INSERTS INTO Part VALUES (’123-435’, ‘V01’, ‘Honda’, ‘Civic’, 2001, 2014, ’120.56’);
-INSERTS INTO Part VALUES (’574-628’, ‘V01’, ‘Ford’, ‘F-150’, 2009, 2010, ’534.12’);
-INSERTS INTO Part VALUES (’123-435’, ‘V01’, ‘Audi’, ‘A4’, 2010, 2015, ’50.56’);
-INSERTS INTO Part VALUES (’123-435’, ‘V01’, ‘Honda’, ’CR-V’, 2000, 2004, ’10.90’);
-INSERTS INTO Part VALUES (’123-435’, ‘V01’, ‘Kia’, ‘Soul’, 2013, 2014, ’111.22’);
+INSERTS INTO Part VALUES (’123-435’, ‘V01’, ‘Honda’, ‘Civic’, 2001, 2014, 120.56);
+INSERTS INTO Part VALUES (’574-628’, ‘V01’, ‘Ford’, ‘F-150’, 2009, 2010, 534.12);
+INSERTS INTO Part VALUES (’123-435’, ‘V01’, ‘Audi’, ‘A4’, 2010, 2015, 50.56);
+INSERTS INTO Part VALUES (’123-435’, ‘V01’, ‘Honda’, ’CR-V’, 2000, 2004, 10.90);
+INSERTS INTO Part VALUES (’123-435’, ‘V01’, ‘Kia’, ‘Soul’, 2013, 2014, 111.22);
 
 
 —-Bin Inserts here
